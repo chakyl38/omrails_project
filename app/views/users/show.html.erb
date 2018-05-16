@@ -3,17 +3,17 @@
     <div class="col-md-4">
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Your Account</h5>
-          <p class="card-text"><%= link_to current_user.username,  user_path(current_user.username) %></p>
-          <a href="#" class="card-link">Settings</a>
-          <a href="#" class="card-link">Another link</a>
+          <h5 class="card-title"><%= @user.username %></h5>
+          <p class="card-text"><%= @user.name %></p>
+          <% if current_user.following?(@user) %>
+            <p class="card-text"><%= link_to "unfollow", unfollow_user_path(@user.username), method: :delete %></p>
+          <% else %>
+            <p class="card-text"><%= link_to "Follow", follow_user_path(@user.username), method: :post %></p>
+          <% end %>
         </div>
       </div>
     </div>
     <div class="col-md-8">
-      <% if user_signed_in? %>
-        <%= link_to 'New Tweet', new_tweet_path %> 
-      <% end %>
       <ul class="list-group">
         <% @tweets.each do |tweet| %>
           <%= link_to tweet, class: "list-group-item list-group-item-action" do %>
